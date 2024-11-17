@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "first-m",
-    "slug": "first-m",
+    "name": "first filter",
+    "slug": "first-filter",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "myapp",
+    "scheme": "firstfilter",
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/images/splash.png",
@@ -13,13 +13,16 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifir": "com.firstfilter.app",
+      "bundleIdentifier": "com.firstfilter.app"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.firstfilter.app"
     },
     "web": {
       "bundler": "metro",
@@ -31,6 +34,11 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "0d1245bf-3eb1-4a46-bee2-9d1f55db9fab"
+      }
     }
   }
 }
