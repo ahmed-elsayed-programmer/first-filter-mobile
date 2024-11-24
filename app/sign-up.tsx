@@ -1,11 +1,6 @@
-import GlobalStyles from "@/components/GlobalStyles";
-import { OrderItem } from "@/constants/types";
 import UseRegister from "@/hooks/useRegister";
-import { clearCard } from "@/redux/features/cartSlice";
-import { useCreateOrderMutation } from "@/redux/features/orderApiSlice";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { Link, useRouter } from "expo-router";
-import React, { useState } from "react";
+import { Link } from "expo-router";
+import React from "react";
 import {
   StyleSheet,
   SafeAreaView,
@@ -39,13 +34,16 @@ export default function SignUp() {
     let regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
     if (first_name.length < 3 || last_name.length < 3) {
-      toast.show(" ادخل الاسم بشكل صحيح");
+      toast.show(" ادخل الاسم بشكل صحيح", { type: "danger" });
+      return;
     }
     if (!email.match(regexEmail)) {
-      toast.show(" ادخل الايميل بشكل صحيح");
+      toast.show(" ادخل الايميل بشكل صحيح", { type: "danger" });
+      return;
     }
     if (password !== re_password || password.length < 8) {
-      toast.show("ادخل الباسورد بشكل صحيح");
+      toast.show("ادخل الباسورد بشكل صحيح", { type: "danger" });
+      return;
     }
     onSubmit();
   };

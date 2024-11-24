@@ -10,7 +10,7 @@ const Header = () => {
 
   const handleLogout = () => {
     dispatch(logout());
-    router.push("/(auth)/login");
+    router.push("/login");
   };
   return (
     <View style={styles.container}>

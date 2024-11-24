@@ -13,15 +13,28 @@ import { useAppDispatch } from "@/redux/hooks";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { setAuth } from "@/redux/features/authSlice";
 import { useLoginMutation } from "@/redux/features/authApiSlice";
+import { useToast } from "react-native-toast-notifications";
 
 const Index = () => {
+  const router = useRouter();
+  const dispatch = useAppDispatch();
+  const toast = useToast();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [login, { isLoading }] = useLoginMutation();
-  const router = useRouter();
-  const dispatch = useAppDispatch();
 
   const handleLogin = async () => {
+    let regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
+    if (!email.match(regexEmail)) {
+      toast.show("ادخل الايميل بشكل صحيح", { type: "danger" });
+      return;
+    }
+    if (password.length < 6) {
+      toast.show("ادخل الباسورد بشكل صحيح", { type: "danger" });
+      return;
+    }
     login({ email, password })
       .unwrap()
       .then((data) => {
@@ -33,14 +46,13 @@ const Index = () => {
         router.push("/(tabs)");
       })
       .catch((err) => {
-        console.error(err);
+        toast.show("لم يتم العثور على حساب نشط بالبيانات المقدمة");
       });
   };
 
   useEffect(() => {
     const checkAuth = async () => {
       const token = await AsyncStorage.getItem("token");
-      console.log("index token", token);
 
       if (token) {
         dispatch(setAuth(token));
@@ -83,12 +95,15 @@ const Index = () => {
           disabled={isLoading}
         >
           <Text style={{ fontSize: 16, color: "white", fontWeight: "bold" }}>
-            تسجيل الدخول
+            {isLoading ? "Loading...." : "تسجيل الدخول"}
           </Text>
         </Pressable>
         <Text style={{ marginTop: 30, width: "100%", textAlign: "center" }}>
           ليس لديك حساب ؟{"   "}
-          <Link href={"/sign-up"} style={{ color: "red", fontWeight: "bold" }}>
+          <Link
+            href={"/sign-up"}
+            style={{ color: "#075eec", fontWeight: "bold" }}
+          >
             انشئ حساب جديد
           </Link>
         </Text>

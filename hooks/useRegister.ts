@@ -26,7 +26,7 @@ export default function UseRegister() {
       })
       .catch((e: any) => {
         let error = e.data[Object.keys(e.data)[0]][0];
-        console.log(e);
+
         toast.show(error);
         // toast.error(error)
       });

@@ -45,20 +45,20 @@ export default function RootLayout() {
   );
 }
 
-export const Layout = () => {
-  const { isAuthenticated } = useAppSelector((state) => state.auth);
-  UseVerify();
+// export const Layout = () => {
+//   const { isAuthenticated } = useAppSelector((state) => state.auth);
+//   UseVerify();
 
-  return (
-    <NavigationContainer>
-      {isAuthenticated ? (
-        <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-      ) : (
-        <Stack.Screen
-          name="(tabs)"
-          options={{ title: "Home ", headerShown: false }}
-        />
-      )}
-    </NavigationContainer>
-  );
-};
+//   return (
+//     <NavigationContainer>
+//       {isAuthenticated ? (
+//         <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+//       ) : (
+//         <Stack.Screen
+//           name="(tabs)"
+//           options={{ title: "Home ", headerShown: false }}
+//         />
+//       )}
+//     </NavigationContainer>
+//   );
+// };
