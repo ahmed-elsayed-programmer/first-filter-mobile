@@ -1,8 +1,16 @@
 import TabBar from "@/components/TabBar";
-import { router, Tabs } from "expo-router";
+import { useAppSelector } from "@/redux/hooks";
+import { Redirect, router, Tabs } from "expo-router";
 import React from "react";
+import { ActivityIndicator } from "react-native";
 
 export default function TabLayout() {
+  const { isAuthenticated, isLoading } = useAppSelector((state) => state.auth);
+
+  if (!isAuthenticated) {
+    return <Redirect href={"/login"} />;
+  }
+
   return (
     <Tabs
       tabBar={(props) => <TabBar {...props} />}

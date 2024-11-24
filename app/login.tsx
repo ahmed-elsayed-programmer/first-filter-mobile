@@ -7,10 +7,50 @@ import {
   TextInput,
   Pressable,
 } from "react-native";
-import React from "react";
-import { Link } from "expo-router";
+import React, { useEffect, useState } from "react";
+import { Link, useRouter } from "expo-router";
+import { useAppDispatch } from "@/redux/hooks";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { setAuth } from "@/redux/features/authSlice";
+import { useLoginMutation } from "@/redux/features/authApiSlice";
 
 const Index = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [login, { isLoading }] = useLoginMutation();
+  const router = useRouter();
+  const dispatch = useAppDispatch();
+
+  const handleLogin = async () => {
+    login({ email, password })
+      .unwrap()
+      .then((data) => {
+        const { access, refresh } = data;
+
+        AsyncStorage.setItem("refresh_token", refresh);
+        AsyncStorage.setItem("token", access);
+        dispatch(setAuth(access));
+        router.push("/(tabs)");
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const token = await AsyncStorage.getItem("token");
+      console.log("index token", token);
+
+      if (token) {
+        dispatch(setAuth(token));
+        router.push("/(tabs)");
+      }
+    };
+
+    checkAuth();
+  }, []);
+
   return (
     <SafeAreaView style={styles.container}>
       <Image
@@ -20,24 +60,35 @@ const Index = () => {
       <View style={styles.loginBox}>
         <Text style={styles.title}>مرحبا بك</Text>
         <Text style={styles.label}>الايميل</Text>
-        <TextInput style={styles.input} autoCapitalize="none" />
+        <TextInput
+          style={styles.input}
+          value={email}
+          onChangeText={setEmail}
+          autoCapitalize="none"
+        />
 
         <Text style={styles.label}>كلمة السر</Text>
         <TextInput
           style={styles.input}
+          value={password}
+          onChangeText={setPassword}
           textContentType="password"
           secureTextEntry
           autoCapitalize="none"
         />
 
-        <Pressable style={styles.btn} onPress={() => console.log("Login")}>
+        <Pressable
+          style={styles.btn}
+          onPress={handleLogin}
+          disabled={isLoading}
+        >
           <Text style={{ fontSize: 16, color: "white", fontWeight: "bold" }}>
             تسجيل الدخول
           </Text>
         </Pressable>
         <Text style={{ marginTop: 30, width: "100%", textAlign: "center" }}>
           ليس لديك حساب ؟{"   "}
-          <Link href={"/(tabs)/"} style={{ color: "red", fontWeight: "bold" }}>
+          <Link href={"/sign-up"} style={{ color: "red", fontWeight: "bold" }}>
             انشئ حساب جديد
           </Link>
         </Text>

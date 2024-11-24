@@ -6,6 +6,7 @@ import type {
 } from "@reduxjs/toolkit/query";
 import { setAuth, logout } from "../features/authSlice";
 import { Mutex } from "async-mutex";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // create a new mutex
 const mutex = new Mutex();
@@ -39,7 +40,10 @@ const baseQueryWithReauth: BaseQueryFn<
           extraOptions
         );
         if (refreshResult.data) {
-          api.dispatch(setAuth());
+          api.dispatch(setAuth(refreshResult.data));
+          const newAccessToken = refreshResult.data.access;
+          await AsyncStorage.setItem("token", newAccessToken);
+
           result = await baseQuery(args, api, extraOptions);
         } else {
           api.dispatch(logout());
@@ -49,6 +53,7 @@ const baseQueryWithReauth: BaseQueryFn<
       }
     } else {
       await mutex.waitForUnlock();
+      await AsyncStorage.removeItem("token");
       result = await baseQuery(args, api, extraOptions);
     }
   }

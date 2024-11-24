@@ -1,16 +1,26 @@
-import { View, Text, StyleSheet, TextInput, Image } from "react-native";
+import { View, Text, StyleSheet, Image, Pressable } from "react-native";
 import React from "react";
-import { Ionicons } from "@expo/vector-icons";
-import SearchBar from "./SearchBar";
+import { useAppDispatch } from "@/redux/hooks";
+import { logout } from "@/redux/features/authSlice";
+import { useRouter } from "expo-router";
 
 const Header = () => {
+  const dispatch = useAppDispatch();
+  const router = useRouter();
+
+  const handleLogout = () => {
+    dispatch(logout());
+    router.push("/(auth)/login");
+  };
   return (
     <View style={styles.container}>
       <View style={styles.userContainer}>
-        <Image
-          source={require("@/assets/images/login.png")}
-          style={styles.userImage}
-        />
+        <Pressable onPress={handleLogout}>
+          <Image
+            source={require("@/assets/images/login.png")}
+            style={styles.userImage}
+          />
+        </Pressable>
         <View>
           <Text
             style={{

@@ -1,7 +1,10 @@
+import UseVerify from "@/hooks/useVerify";
+import { useAppSelector } from "@/redux/hooks";
 import Provider from "@/redux/provider";
 import { AntDesign } from "@expo/vector-icons";
+import { NavigationContainer } from "@react-navigation/native";
 import { useFonts } from "expo-font";
-import { Stack } from "expo-router";
+import { Slot, Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import "react-native-reanimated";
@@ -36,15 +39,26 @@ export default function RootLayout() {
       }
     >
       <Provider>
-        <Stack>
-          <Stack.Screen name="index" options={{ headerShown: false }} />
-          <Stack.Screen
-            name="(tabs)"
-            options={{ title: "Home ", headerShown: false }}
-          />
-          <Stack.Screen name="thanks" options={{ headerShown: false }} />
-        </Stack>
+        <Slot />
       </Provider>
     </ToastProvider>
   );
 }
+
+export const Layout = () => {
+  const { isAuthenticated } = useAppSelector((state) => state.auth);
+  UseVerify();
+
+  return (
+    <NavigationContainer>
+      {isAuthenticated ? (
+        <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+      ) : (
+        <Stack.Screen
+          name="(tabs)"
+          options={{ title: "Home ", headerShown: false }}
+        />
+      )}
+    </NavigationContainer>
+  );
+};
