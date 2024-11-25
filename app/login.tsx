@@ -107,6 +107,30 @@ const Index = () => {
             انشئ حساب جديد
           </Link>
         </Text>
+        <Link
+          href={"/(tabs)"}
+          style={{
+            color: "rgb(230,50,35)",
+            textAlign: "center",
+            width: "100%",
+            fontWeight: "bold",
+            fontSize: 24,
+            marginVertical: 35,
+          }}
+        >
+          تخطي
+        </Link>
+        <Text style={{ marginTop: 30, width: "100%", textAlign: "center" }}>
+          صفحة سياسة الخصوصية{" "}
+          <Link
+            href={
+              "https://www.privacypolicies.com/live/0cf58ff2-7e14-40b5-a6df-1cd40e9aa200"
+            }
+            style={{ color: "red", fontWeight: "bold" }}
+          >
+            انقر هنا
+          </Link>
+        </Text>
       </View>
     </SafeAreaView>
   );

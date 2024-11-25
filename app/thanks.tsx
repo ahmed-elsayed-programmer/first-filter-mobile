@@ -1,13 +1,6 @@
-import {
-  View,
-  Text,
-  SafeAreaView,
-  TouchableOpacity,
-  StyleSheet,
-} from "react-native";
+import { View, Text, SafeAreaView, StyleSheet } from "react-native";
 import React from "react";
 import { Link, Stack } from "expo-router";
-import GlobalStyles from "@/components/GlobalStyles";
 import { AntDesign } from "@expo/vector-icons";
 
 const thanks = () => {

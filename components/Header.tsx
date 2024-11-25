@@ -1,42 +1,33 @@
 import { View, Text, StyleSheet, Image, Pressable } from "react-native";
 import React from "react";
-import { useAppDispatch } from "@/redux/hooks";
-import { logout } from "@/redux/features/authSlice";
-import { useRouter } from "expo-router";
+import { Link } from "expo-router";
 
 const Header = () => {
-  const dispatch = useAppDispatch();
-  const router = useRouter();
-
-  const handleLogout = () => {
-    dispatch(logout());
-    router.push("/login");
-  };
   return (
     <View style={styles.container}>
-      <View style={styles.userContainer}>
-        <Pressable onPress={handleLogout}>
+      <Link href={"/(user)/profile"} asChild>
+        <Pressable style={styles.userContainer}>
           <Image
             source={require("@/assets/images/login.png")}
             style={styles.userImage}
           />
+          <View>
+            <Text
+              style={{
+                fontSize: 20,
+                marginTop: 20,
+                fontWeight: "bold",
+                textAlign: "right",
+              }}
+            >
+              الملف الشخصي
+            </Text>
+            <Text style={{ fontSize: 20, fontWeight: "bold" }}>
+              {/* Ahmed Elsayed */}
+            </Text>
+          </View>
         </Pressable>
-        <View>
-          <Text
-            style={{
-              fontSize: 20,
-              marginTop: 20,
-              fontWeight: "bold",
-              textAlign: "right",
-            }}
-          >
-            اهلا بك
-          </Text>
-          <Text style={{ fontSize: 20, fontWeight: "bold" }}>
-            {/* Ahmed Elsayed */}
-          </Text>
-        </View>
-      </View>
+      </Link>
     </View>
   );
 };
